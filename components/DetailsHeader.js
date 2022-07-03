@@ -1,23 +1,20 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import {
+	SafeAreaView,
+	StyleSheet,
+	Text,
+	View,
+	Image,
+	TouchableOpacity,
+} from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { COLORS, SHADOWS, SIZES, assets } from "../constants/constants/index";
 
-const NftCard = ({ nft_data }) => {
-	// navigation controller to navigate between pages
-	let navigation = useNavigation();
-
+const DetailsHeader = ({ nft_data, navigation }) => {
 	return (
-		<View
-			style={{
-				backgroundColor: COLORS.white,
-				borderRadius: SIZES.font,
-				marginBottom: SIZES.extraLarge,
-				margin: SIZES.base,
-				...SHADOWS.dark,
-			}}
-		>
-			<View style={{ width: "100%", height: 250 }}>
+		<SafeAreaView>
+			{/* Details Image and Different button to go back and make favourite*/}
+			<View style={{ width: "100%", height: 300 }}>
 				{/* Cover Image For Card */}
 				<Image
 					source={nft_data.image}
@@ -25,10 +22,31 @@ const NftCard = ({ nft_data }) => {
 					style={{
 						width: "100%",
 						height: "100%",
-						borderTopLeftRadius: SIZES.font,
-						borderTopRightRadius: SIZES.font,
 					}}
 				/>
+
+				{/* Back icon over the card */}
+				<TouchableOpacity
+					style={{
+						width: 40,
+						height: 40,
+						backgroundColor: COLORS.white,
+						position: "absolute",
+						alignItems: "center",
+						justifyContent: "center",
+						borderRadius: SIZES.extraLarge,
+						top: 10,
+						left: 15,
+						...SHADOWS.light,
+					}}
+					onPress={() => navigation.goBack()}
+				>
+					<Image
+						source={assets.left}
+						resizeMode="contain"
+						style={{ width: 24, height: 24 }}
+					/>
+				</TouchableOpacity>
 
 				{/* Heart icon over the card */}
 				<TouchableOpacity
@@ -41,7 +59,7 @@ const NftCard = ({ nft_data }) => {
 						justifyContent: "center",
 						borderRadius: SIZES.extraLarge,
 						top: 10,
-						right: 10,
+						right: 15,
 						...SHADOWS.light,
 					}}
 				>
@@ -81,25 +99,24 @@ const NftCard = ({ nft_data }) => {
 			</View>
 
 			{/* Title and subtitle context */}
-			<View style={{ marginHorizontal: 15 }}>
-				<Text style={{ fontSize: 17, fontFamily: "InterSemiBold" }}>
-					{nft_data.name}
-				</Text>
-				<Text style={{ fontSize: 13, fontFamily: "InterLight" }}>
-					{nft_data.creator}
-				</Text>
-			</View>
-
-			{/* Price and Place a bid Section */}
 			<View
 				style={{
+					marginHorizontal: 15,
+					marginTop: 15,
 					flexDirection: "row",
 					justifyContent: "space-between",
 					alignItems: "center",
-					marginHorizontal: 15,
-					marginVertical: 15,
 				}}
 			>
+				<View>
+					<Text style={{ fontSize: 20, fontFamily: "InterSemiBold" }}>
+						{nft_data.name}
+					</Text>
+					<Text style={{ fontSize: 15, fontFamily: "InterLight" }}>
+						{nft_data.creator}
+					</Text>
+				</View>
+
 				<View
 					style={{
 						flexDirection: "row",
@@ -112,37 +129,28 @@ const NftCard = ({ nft_data }) => {
 						{nft_data.price}
 					</Text>
 				</View>
-
-				<TouchableOpacity
-					onPress={() => navigation.navigate("Details", { nft_data })}
-					activeOpacity={0.8}
-				>
-					<View
-						style={{
-							alignItems: "center",
-							backgroundColor: "black",
-							width: 100,
-							height: 40,
-							borderRadius: 20,
-							justifyContent: "center",
-						}}
-					>
-						<Text
-							style={{
-								fontSize: 13,
-								fontFamily: "InterSemiBold",
-								color: "white",
-							}}
-						>
-							Place a bid
-						</Text>
-					</View>
-				</TouchableOpacity>
 			</View>
-		</View>
+
+			{/* Description section */}
+			<View style={{ marginHorizontal: 15, marginTop: 20 }}>
+				<Text style={{ fontSize: 16, fontFamily: "InterSemiBold" }}>
+					Description
+				</Text>
+				<Text style={{ fontSize: 13, fontFamily: "InterRegular" }}>
+					{nft_data.description}
+				</Text>
+			</View>
+
+			{/* Current Bids section */}
+			<View style={{ marginHorizontal: 10, marginTop: 15 }}>
+				<Text style={{ fontSize: 16, fontFamily: "InterSemiBold" }}>
+					Current Bids
+				</Text>
+			</View>
+		</SafeAreaView>
 	);
 };
 
-export default NftCard;
+export default DetailsHeader;
 
 const styles = StyleSheet.create({});
